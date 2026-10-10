@@ -7,37 +7,34 @@ contract TaskTracker {
         bool completed;
     }
 
-    mapping(address => Task[]) public tasks ;
+    mapping(address => Task[]) public tasks;
 
-    error IndexTidakValid(); 
+    error IndexTidakValid();
 
     function addTask(string memory _content) public {
-    tasks[msg.sender].push(Task({
-        content: _content,
-        completed: false
-     }));
-}
+        tasks[msg.sender].push(Task({content: _content, completed: false}));
+    }
 
     function completeTask(uint256 _index) public {
         if (_index >= tasks[msg.sender].length) {
-      revert IndexTidakValid();
+            revert IndexTidakValid();
+        }
+        tasks[msg.sender][_index].completed = true;
     }
-    tasks[msg.sender][_index].completed = true ;
-}
 
-    function editTask(string memory _content , uint256 _index) public {
-      if (_index >= tasks[msg.sender].length) {
-      revert IndexTidakValid();    
-   }
-    tasks[msg.sender][_index].content = _content ;
-         }
+    function editTask(string memory _content, uint256 _index) public {
+        if (_index >= tasks[msg.sender].length) {
+            revert IndexTidakValid();
+        }
+        tasks[msg.sender][_index].content = _content;
+    }
 
     function deleteTask(uint256 _index) public {
-    if (_index >= tasks[msg.sender].length) {
-      revert IndexTidakValid();
-   }
-    tasks[msg.sender][_index] = tasks[msg.sender][tasks[msg.sender].length - 1];
-    tasks[msg.sender].pop();
-}
+        if (_index >= tasks[msg.sender].length) {
+            revert IndexTidakValid();
+        }
+        tasks[msg.sender][_index] = tasks[msg.sender][tasks[msg.sender].length - 1];
+        tasks[msg.sender].pop();
+    }
 }
 
